@@ -18,7 +18,7 @@ public class Drive : MonoBehaviour
 
     void Start()
     {
-        accel = transform.rotation * (Vector3.forward * a);
+        transform.LookAt(transform.position + accel);
 
         rb.velocity = iV;
     }

@@ -64,7 +64,8 @@ MonoBehaviour:
   rb: {fileID: 8702055259935637714}
   targetDrive: {fileID: 0}
   target: {fileID: 0}
-  speed: 20
+  speed: 30
+  chooseMin: 1
 --- !u!1 &8702055260436002330
 GameObject:
   m_ObjectHideFlags: 0
