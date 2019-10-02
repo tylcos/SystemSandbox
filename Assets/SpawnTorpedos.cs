@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class SpawnTorpedos : MonoBehaviour
 {
+    public int SpawnRate = 30;
     public GameObject torpedo;
     public Transform target;
 
     public float a = 20f;
 
+    int i = 0;
+
     void Update()
     {
+        if (i++ % SpawnRate != 0)
+            return;
+
         GameObject spawnedTorpedo = Instantiate(torpedo, transform);
         Drive drive = spawnedTorpedo.GetComponent<Drive>();
 

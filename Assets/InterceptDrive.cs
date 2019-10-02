@@ -15,6 +15,7 @@ public class InterceptDrive : MonoBehaviour
 
     public bool chooseMin = true;
 
+    int i = 0;
 
 
     void Start()
@@ -45,7 +46,7 @@ public class InterceptDrive : MonoBehaviour
             rb.velocity = (interceptPos - rb.position).normalized * speed;
             transform.LookAt(interceptPos);
 
-            GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = interceptPos;
+            //GameObject.CreatePrimitive(PrimitiveType.Sphere).transform.position = interceptPos;
         }
         else
             print("Target unreachable");
@@ -80,7 +81,7 @@ public class InterceptDrive : MonoBehaviour
 
     void FixedUpdate()
     {
-        if ((target.position - rb.position).magnitude < .1f)
-            print(Time.fixedTime);
+        if (i++ == 150)
+            Destroy(gameObject);
     }
 }

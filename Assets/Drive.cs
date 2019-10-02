@@ -14,8 +14,6 @@ public class Drive : MonoBehaviour
     [HideInInspector]
     public Vector3 accel;
 
-
-
     void Start()
     {
         transform.LookAt(transform.position + accel);
