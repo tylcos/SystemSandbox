@@ -8,13 +8,19 @@ public class SpawnTorpedos : MonoBehaviour
     public Transform target;
 
     public float a = 20f;
+    public int spawnRate = 5;
+
+    private int i;
 
     void Update()
     {
-        GameObject spawnedTorpedo = Instantiate(torpedo, transform);
+        if (i++ % spawnRate != 0)
+            return;
+
+        Vector3 spawnPos = new Vector3(Random.Range(-100f, 100f), Random.Range(-100f, 100f), Random.Range(200f, 300f));
+        GameObject spawnedTorpedo = Instantiate(torpedo, spawnPos, Quaternion.identity, transform);
         Drive drive = spawnedTorpedo.GetComponent<Drive>();
 
-        spawnedTorpedo.transform.position = new Vector3(Random.Range(-200f, 200f), Random.Range(-200f, 200f), Random.Range(500f, 600f));
         drive.accel = (target.position - spawnedTorpedo.transform.position).normalized * a;
     }
 }

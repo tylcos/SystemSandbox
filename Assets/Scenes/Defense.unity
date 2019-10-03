@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 48552676}
   - component: {fileID: 48552677}
   m_Layer: 0
-  m_Name: PDC
+  m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,13 +136,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 48552675}
-  m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.802, z: -0.202}
   m_LocalScale: {x: 0.48757, y: 0.48757023, z: 0.48757023}
-  m_Children: []
+  m_Children:
+  - {fileID: 765393601}
   m_Father: {fileID: 1329448339}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &48552677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7733eb0e35279b543b706a768f37a711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torpedo: {fileID: 8702055259935637724, guid: c68895ff1dcc03d4ea57332025701c45, type: 3}
+  pdcRound: {fileID: 8702055259935637724, guid: c68895ff1dcc03d4ea57332025701c45,
+    type: 3}
   range: 200
 --- !u!1 &247680394
 GameObject:
@@ -264,8 +266,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   torpedo: {fileID: 5874279443600383099, guid: 89ff7f86627047b4d9428d6890e8c681, type: 3}
-  target: {fileID: 1329448339}
-  a: 20
+  target: {fileID: 48552676}
+  a: 10
+  spawnRate: 50
 --- !u!4 &667498646
 Transform:
   m_ObjectHideFlags: 0
@@ -383,11 +386,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765393600}
   m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.7071079}
-  m_LocalPosition: {x: 0, y: 0.783, z: 0}
-  m_LocalScale: {x: 0.4875695, y: 0.4875695, z: 0.4875695}
+  m_LocalPosition: {x: 0, y: -0.038968854, z: 0.44}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1329448339}
-  m_RootOrder: 2
+  m_Father: {fileID: 48552676}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
 --- !u!23 &765393602
 MeshRenderer:
@@ -614,7 +617,6 @@ Transform:
   m_Children:
   - {fileID: 763006377}
   - {fileID: 247680395}
-  - {fileID: 765393601}
   - {fileID: 48552676}
   m_Father: {fileID: 0}
   m_RootOrder: 1
