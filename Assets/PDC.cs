@@ -8,17 +8,28 @@ public class PDC : MonoBehaviour
 {
     public GameObject pdcRound;
 
-    public float range = 300f;
-    private int[] magSizeRange = { 2, 8 };
-    private const float angularVelocity = 120f; // Degrees per second
-    private const float maxAngleDeadzone = 3f; // Degrees
-    private const float maxRecoilAngle = 3f; // Degrees
+    public float range                         = 300f;
+    private readonly int[] magSizeRange        = { 5, 12 };
+    private const float angularVelocity        = 60f;  // Degrees per second
+    private const float maxDeadzoneAngle       = 3f;   // Degrees
+    private const float maxTargetTransferAngle = 20f;  // Degrees
+    private const float maxRecoilAngle         = 3f;   // Degrees
 
     private readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
 
     private GameObject target;
     private Quaternion targetRot;
+    private bool transferingTarget;
     private int roundsRemaining;
+
+
+
+    void Start()
+    {
+        //Time.timeScale = 2;
+    }
+
+
 
     void FixedUpdate()
     {
@@ -33,8 +44,8 @@ public class PDC : MonoBehaviour
                 Vector3 relativePos = target.transform.position - transform.position;
                 targetRot = Quaternion.LookRotation(relativePos);
 
+                transferingTarget = Quaternion.Angle(transform.rotation, targetRot) < maxTargetTransferAngle;
                 roundsRemaining = Random.Range(magSizeRange[0], magSizeRange[1]);
-                print(roundsRemaining);
             }
             else
             {
@@ -44,18 +55,12 @@ public class PDC : MonoBehaviour
         }
 
 
+        
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, angularVelocity * Time.deltaTime);
 
-        if (Quaternion.Angle(transform.rotation, targetRot) < maxAngleDeadzone)
+        if (Quaternion.Angle(transform.rotation, targetRot) < maxDeadzoneAngle)
         {
-            transform.rotation *= Quaternion.Euler(Random.Range(-maxRecoilAngle, maxRecoilAngle), 
-                                                   Random.Range(-maxRecoilAngle, maxRecoilAngle), 0);
-
-            var go = Instantiate(pdcRound, transform.position, transform.rotation, transform.parent);
-            var id = go.GetComponent<InterceptDrive>();
-
-            id.targetDrive = target.GetComponent<Drive>();
-            id.target = target.GetComponent<Rigidbody>();
-            id.parent = this;
+            ShootRound();
 
             if (--roundsRemaining == 0)
             {
@@ -63,12 +68,27 @@ public class PDC : MonoBehaviour
                 target = null; // Stop firing on current target
             }
         }
-        else
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, angularVelocity * Time.deltaTime);
+        else if (transferingTarget)
+            ShootRound();
     }
 
-    internal void TargetHit(GameObject target)
+    private void ShootRound()
     {
-        shotTargets.Remove(target);
+        transform.rotation *= Quaternion.Euler(Random.Range(-maxRecoilAngle, maxRecoilAngle),
+                                               Random.Range(-maxRecoilAngle, maxRecoilAngle), 0);
+
+        var go = Instantiate(pdcRound, transform.position, transform.rotation, transform.parent);
+        var id = go.GetComponent<InterceptDrive>();
+
+        id.targetDrive = target.GetComponent<Drive>();
+        id.target = target.GetComponent<Rigidbody>();
+        id.parent = this;
+    }
+
+
+
+    internal void TargetHit(GameObject targetHit)
+    {
+        shotTargets.Remove(targetHit);
     }
 }
