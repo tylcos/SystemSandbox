@@ -11,9 +11,7 @@ public class SpawnTorpedos : MonoBehaviour
     public float a = 20f;
     public int spawnRate = 5;
 
-    private int i;
-
-    int i = 0;
+    private int i = 0;
 
     void Update()
     {

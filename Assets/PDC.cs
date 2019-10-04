@@ -22,9 +22,6 @@ public class PDC : MonoBehaviour
     private bool transferingTarget;
     private int roundsRemaining;
 
-    int i = 0;
-
-
 
 
     void Start()

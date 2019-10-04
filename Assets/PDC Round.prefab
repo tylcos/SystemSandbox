@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8702055259935637714}
   - component: {fileID: 8702055259935637725}
   - component: {fileID: 2911906947180182253}
+  - component: {fileID: 6708125069054395087}
   m_Layer: 0
   m_Name: PDC Round
   m_TagString: Untagged
@@ -60,8 +61,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 901de3567f78e6d4ba68e5b61b6439ba, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   rb: {fileID: 8702055259935637714}
   targetDrive: {fileID: 0}
   target: {fileID: 0}
@@ -81,6 +82,19 @@ CapsuleCollider:
   m_Height: 0.4319834
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0.0016815364}
+--- !u!114 &6708125069054395087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8702055259935637724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a286354e3ff9b314e89246523857cb61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosion: {fileID: 100004, guid: 82019e923dca94848916b96b8f98a352, type: 3}
 --- !u!1 &8702055260436002330
 GameObject:
   m_ObjectHideFlags: 0

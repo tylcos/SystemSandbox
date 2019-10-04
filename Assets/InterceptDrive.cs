@@ -15,7 +15,6 @@ public class InterceptDrive : MonoBehaviour
 
     public PDC parent;
 
-    int i = 0;
 
 
     void Start()
@@ -51,6 +50,7 @@ public class InterceptDrive : MonoBehaviour
         {
             parent.TargetHit(other.gameObject);
 
+            gameObject.GetComponent<Explosion>().SpawnExplosion();
             Destroy(other.gameObject);
             Destroy(gameObject);
         }
