@@ -15,6 +15,7 @@ public class InterceptDrive : MonoBehaviour
 
     public PDC parent;
 
+    int i = 0;
 
 
     void Start()

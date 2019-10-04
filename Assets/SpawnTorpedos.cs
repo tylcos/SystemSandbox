@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpawnTorpedos : MonoBehaviour
 {
+    public int SpawnRate = 30;
     public GameObject torpedo;
     public Transform target;
 
@@ -11,6 +12,8 @@ public class SpawnTorpedos : MonoBehaviour
     public int spawnRate = 5;
 
     private int i;
+
+    int i = 0;
 
     void Update()
     {

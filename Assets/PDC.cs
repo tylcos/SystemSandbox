@@ -22,6 +22,9 @@ public class PDC : MonoBehaviour
     private bool transferingTarget;
     private int roundsRemaining;
 
+    int i = 0;
+
+
 
 
     void Start()
@@ -55,7 +58,7 @@ public class PDC : MonoBehaviour
         }
 
 
-        
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, angularVelocity * Time.deltaTime);
 
         if (Quaternion.Angle(transform.rotation, targetRot) < maxDeadzoneAngle)
