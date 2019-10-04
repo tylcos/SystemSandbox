@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Spin : MonoBehaviour
 {
-    public Rigidbody rb;
-
-    void Start()
+    void Update()
     {
-        rb.angularVelocity = new Vector3(0, 0, 20);
+        transform.rotation *= Quaternion.Euler(0, 360 * Time.deltaTime, 0);
     }
 }

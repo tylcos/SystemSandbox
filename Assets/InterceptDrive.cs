@@ -19,6 +19,14 @@ public class InterceptDrive : MonoBehaviour
 
     void Start()
     {
+        if (target == null)
+        {
+            rb.velocity = transform.forward.normalized * speed;
+            return;
+        }
+
+
+
         Vector3 rv = target.velocity - rb.velocity;
         Vector3 rp = target.position - rb.position;
 
