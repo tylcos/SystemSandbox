@@ -15,11 +15,11 @@ public class PDC : MonoBehaviour
     private float pdcRoundSpeed;
 
     private const float range                  = 300f;
-    private readonly int[] magSizeRange        = { 5, 12 };
+    private readonly int[] magSizeRange        = { 1, 2 };
     private const float angularVelocity        = 60f;  // Degrees per second
-    private const float maxDeadzoneAngle       = .1f;   // Degrees
+    private const float maxDeadzoneAngle       = 1f;   // Degrees
     private const float maxTargetTransferAngle = 20f;  // Degrees
-    private const float maxRecoilAngle         = 1f;   // Degrees
+    private const float maxRecoilAngle         = .5f;   // Degrees
 
     private readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
 
@@ -85,7 +85,7 @@ public class PDC : MonoBehaviour
 
         void updateEstimatedIntercept()
         {
-            float predictedT = EquationSolver.FindRealSolutionSmallestT(parentDrive.rb.velocity, roundSpawnPoint.position, pdcRoundSpeed, targetDrive);
+            float predictedT = InterceptSolverNoAccel.FindRealSolutionSmallestT(parentDrive.rb.velocity, roundSpawnPoint.position, pdcRoundSpeed, targetDrive);
             if (float.IsInfinity(predictedT))
             {
                 target = null;
@@ -101,11 +101,14 @@ public class PDC : MonoBehaviour
     {
         transform.rotation *= Quaternion.Euler((Vector3)Random.insideUnitCircle * maxRecoilAngle);
 
-        var spawnedRound = Instantiate(pdcRound, roundSpawnPoint.position, transform.rotation, transform.parent);
+        var spawnedRound = Instantiate(pdcRound, roundSpawnPoint.position, transform.rotation, GameManager.WorldTransform);
         var spawnedDrive = spawnedRound.GetComponent<InterceptDrive>();
 
-        spawnedDrive.targetDrive = hasTarget ? targetDrive : null;
         spawnedDrive.parent = this;
+        spawnedDrive.targetDrive = hasTarget ? targetDrive : null;
+        spawnedDrive.rb.velocity = parentDrive.rb.velocity;
+
+        spawnedDrive.Initialize();
     }
 
 

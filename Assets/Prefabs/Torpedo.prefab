@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5874279443600383103}
   - component: {fileID: 4833742793236220548}
   - component: {fileID: 5745507813826001421}
-  - component: {fileID: 2734587546908909145}
+  - component: {fileID: 6429788378062454052}
   m_Layer: 0
   m_Name: Torpedo
   m_TagString: torpedo
@@ -111,7 +111,7 @@ CapsuleCollider:
   m_Height: 1.25
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2734587546908909145
+--- !u!114 &6429788378062454052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,13 +120,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5874279443600383099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 443557c879b848c409ee5eb253dbd6ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 2da3d20322d55814188bde321a88566d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4833742793236220548}
   accel: {x: 0, y: 0, z: 0}
-  a: 5
-  iV: {x: 0, y: 0, z: 0}
+  speed: 10
+  initalV: {x: 1, y: 0, z: 0}
+  targetDrive: {fileID: 0}
 --- !u!1 &5874279444076388960
 GameObject:
   m_ObjectHideFlags: 0

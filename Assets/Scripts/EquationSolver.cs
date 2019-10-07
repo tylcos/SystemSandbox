@@ -4,13 +4,19 @@ using UnityEngine;
 
 
 
-public static class EquationSolver
+public static class InterceptSolver
 {
     public static float FindRealSolutionSmallestT(double[] coefficients)
     {
         var realSolutions = FindRoots.Polynomial(coefficients).Where(r => r.IsReal() && r.Real > 0).OrderBy(r => r.Real);
         return realSolutions.Any() ? (float)realSolutions.First().Real : float.PositiveInfinity;
     }
+}
+
+
+
+public static class InterceptSolverNoAccel 
+{
 
     public static float FindRealSolutionSmallestT(InterceptDrive drive, Drive targetDrive)
     {
@@ -20,12 +26,12 @@ public static class EquationSolver
         double[] coefficients = {
             rp.sqrMagnitude,
             2d * Vector3.Dot(rv, rp),
-            Vector3.Dot(targetDrive.accel, rp) + rv.sqrMagnitude - drive.speed * drive.speed,
-            Vector3.Dot(targetDrive.accel, rv),
-            .25d * targetDrive.accel.sqrMagnitude
+            Vector3.Dot(targetDrive.accelVec, rp) + rv.sqrMagnitude - drive.speed * drive.speed,
+            Vector3.Dot(targetDrive.accelVec, rv),
+            .25d * targetDrive.accelVec.sqrMagnitude
         };
 
-        return FindRealSolutionSmallestT(coefficients);
+        return InterceptSolver.FindRealSolutionSmallestT(coefficients);
     }
 
     public static float FindRealSolutionSmallestT(Vector3 currentVelocity, Vector3 currentPos, float speed, Drive targetDrive)
@@ -37,11 +43,32 @@ public static class EquationSolver
         double[] coefficients = {
             rp.sqrMagnitude,
             2d * Vector3.Dot(rv, rp),
-            Vector3.Dot(targetDrive.accel, rp) + rv.sqrMagnitude - speed * speed,
-            Vector3.Dot(targetDrive.accel, rv),
-            .25d * targetDrive.accel.sqrMagnitude
+            Vector3.Dot(targetDrive.accelVec, rp) + rv.sqrMagnitude - speed * speed,
+            Vector3.Dot(targetDrive.accelVec, rv),
+            .25d * targetDrive.accelVec.sqrMagnitude
         };
 
-        return FindRealSolutionSmallestT(coefficients);
+        return InterceptSolver.FindRealSolutionSmallestT(coefficients);
+    }
+}
+
+
+
+public static class InterceptSolverAccel
+{
+    public static float FindRealSolutionSmallestT(InterceptDriveAccel drive, Drive targetDrive)
+    {
+        Vector3 rv = targetDrive.rb.velocity - drive.rb.velocity;
+        Vector3 rp = targetDrive.rb.position - drive.rb.position;
+
+        double[] coefficients = {
+            4d * rp.sqrMagnitude,
+            8d * Vector3.Dot(rv, rp),
+            4d * (Vector3.Dot(targetDrive.accelVec, rp) + rv.sqrMagnitude),
+            4d * Vector3.Dot(targetDrive.accelVec, rv),
+            targetDrive.accelVec.sqrMagnitude - drive.accel * drive.accel
+        };
+
+        return InterceptSolver.FindRealSolutionSmallestT(coefficients);
     }
 }
