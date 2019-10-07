@@ -30,12 +30,10 @@ public class InterceptDriveAccel : Drive
             Vector3 rp = targetDrive.EstimatedPos(t) - rb.position;
 
             Vector3 wastedAccel = -2f * (rb.velocity - Vector3.Project(rb.velocity, rp)) / t; 
-            Vector3 towardsTargetAccel = rp.normalized * (accel - wastedAccel.magnitude);
+            Vector3 towardsTargetAccel = rp.normalized * Mathf.Sqrt(accel * accel - wastedAccel.sqrMagnitude);
 
             accelVec = wastedAccel + towardsTargetAccel;
             transform.rotation = Quaternion.LookRotation(accelVec);
-
-            print(accelVec.magnitude);
         }
     }
 

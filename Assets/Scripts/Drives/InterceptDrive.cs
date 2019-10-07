@@ -22,7 +22,7 @@ public class InterceptDrive : Drive
 
         if (targetDrive == null)
         {
-            rb.velocity = transform.forward.normalized * speed;
+            rb.velocity += transform.forward.normalized * speed;
             return;
         }
 
@@ -33,23 +33,19 @@ public class InterceptDrive : Drive
         {
             Vector3 rp = targetDrive.EstimatedPos(t) - rb.position;
 
-            // PROBLEM
             Vector3 projectedWastedVel = Vector3.Project(rb.velocity, rp);
             Vector3 wastedVel = -(rb.velocity - projectedWastedVel);
-            Vector3 towardsTargetVel = rp.normalized * speed;
-
-            print(wastedVel.magnitude);
-            print(towardsTargetVel.magnitude);
-            print((wastedVel + towardsTargetVel).magnitude);
+            Vector3 towardsTargetVel = rp.normalized * Mathf.Sqrt(speed * speed - wastedVel.sqrMagnitude);
+            Vector3 resultVel = wastedVel + towardsTargetVel;
 
             rb.velocity += wastedVel + towardsTargetVel;
-            transform.rotation = Quaternion.LookRotation(rp);
+            transform.rotation = Quaternion.LookRotation(resultVel);
 
 
-
+            /*
             var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             g.transform.position = targetDrive.EstimatedPos(t);
-            Destroy(g.GetComponent<SphereCollider>());
+            Destroy(g.GetComponent<SphereCollider>()); */
         }
     }
 

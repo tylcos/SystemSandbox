@@ -15,11 +15,11 @@ public class PDC : MonoBehaviour
     private float pdcRoundSpeed;
 
     private const float range                  = 300f;
-    private readonly int[] magSizeRange        = { 1, 2 };
+    private readonly int[] magSizeRange        = { 5, 12 };
     private const float angularVelocity        = 60f;  // Degrees per second
     private const float maxDeadzoneAngle       = 1f;   // Degrees
-    private const float maxTargetTransferAngle = 20f;  // Degrees
-    private const float maxRecoilAngle         = .5f;   // Degrees
+    private const float maxTargetTransferAngle = 10;  // Degrees
+    private const float maxRecoilAngle         = 2f;  // Degrees
 
     private readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
 
@@ -92,8 +92,13 @@ public class PDC : MonoBehaviour
                 return;
             }
 
-            Vector3 relativePos = targetDrive.EstimatedPos(predictedT) - transform.position;
-            targetRot = Quaternion.LookRotation(relativePos);
+            Vector3 rp = targetDrive.EstimatedPos(predictedT) - roundSpawnPoint.position;
+
+            Vector3 projectedWastedVel = Vector3.Project(parentDrive.rb.velocity, rp);
+            Vector3 wastedVel = -(parentDrive.rb.velocity - projectedWastedVel);
+            Vector3 towardsTargetVel = rp.normalized * Mathf.Sqrt(pdcRoundSpeed * pdcRoundSpeed - wastedVel.sqrMagnitude);
+
+            targetRot = Quaternion.LookRotation(wastedVel + towardsTargetVel);
         }
     }
 
