@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5874279443600383088}
   - component: {fileID: 5874279443600383103}
   - component: {fileID: 4833742793236220548}
-  - component: {fileID: 5874279443600383101}
   - component: {fileID: 5745507813826001421}
+  - component: {fileID: 2734587546908909145}
   m_Layer: 0
   m_Name: Torpedo
   m_TagString: torpedo
@@ -97,22 +97,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5874279443600383101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874279443600383099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f48ef52b20115142a9afb7469982eec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 4833742793236220548}
-  a: 20
-  iV: {x: 0, y: 0, z: 0}
-  accel: {x: 0, y: 0, z: 0}
 --- !u!136 &5745507813826001421
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -127,6 +111,22 @@ CapsuleCollider:
   m_Height: 1.25
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2734587546908909145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5874279443600383099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 443557c879b848c409ee5eb253dbd6ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 4833742793236220548}
+  accel: {x: 0, y: 0, z: 0}
+  a: 5
+  iV: {x: 0, y: 0, z: 0}
 --- !u!1 &5874279444076388960
 GameObject:
   m_ObjectHideFlags: 0

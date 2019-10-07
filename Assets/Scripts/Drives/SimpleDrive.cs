@@ -1,20 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 
-public class Drive : MonoBehaviour
+public class SimpleDrive : Drive
 {
-    public Rigidbody rb;
-
     public float a = 5f;
     public Vector3 iV = new Vector3(0, 0, 0);
 
-    [HideInInspector]
-    public Vector3 accel;
 
-    void Start()
+
+    new void Start()
     {
         transform.LookAt(transform.position + accel);
 

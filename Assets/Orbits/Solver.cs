@@ -16,7 +16,7 @@ public class Solver : MonoBehaviour
 
     public TMP_Text text;
     public LineRenderer lr;
-    public int index = 0;
+    public int index;
 
 
 

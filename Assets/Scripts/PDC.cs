@@ -1,14 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+
+
 public class PDC : MonoBehaviour
 {
     public GameObject pdcRound;
+    public Transform roundSpawnPoint;
 
-    public float range                         = 300f;
+    private Drive parentDrive;
+    private float pdcRoundSpeed;
+
+    private const float range                  = 300f;
     private readonly int[] magSizeRange        = { 5, 12 };
     private const float angularVelocity        = 60f;  // Degrees per second
     private const float maxDeadzoneAngle       = .1f;   // Degrees
@@ -18,6 +24,7 @@ public class PDC : MonoBehaviour
     private readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
 
     private GameObject target;
+    private Drive targetDrive;
     private Quaternion targetRot;
     private bool transferingTarget;
     private int roundsRemaining;
@@ -27,6 +34,8 @@ public class PDC : MonoBehaviour
     void Start()
     {
         //Time.timeScale = 2;
+        parentDrive = transform.GetComponentInParent<Drive>();
+        pdcRoundSpeed = pdcRound.GetComponent<InterceptDrive>().speed;
     }
 
 
@@ -39,23 +48,24 @@ public class PDC : MonoBehaviour
                 .Where(t => t.tag == "torpedo" && !shotTargets.Contains(t.gameObject))
                 .OrderBy(t => (t.transform.position - transform.position).sqrMagnitude).FirstOrDefault()?.gameObject;
 
+            // Could loop until a interceptable target is found but is unnecessary
             if (target != null) // New target acqusition
             {
-                Vector3 relativePos = target.transform.position - transform.position;
-                targetRot = Quaternion.LookRotation(relativePos);
+                targetDrive = target.GetComponent<Drive>();
+                updateEstimatedIntercept(); 
 
                 transferingTarget = Quaternion.Angle(transform.rotation, targetRot) < maxTargetTransferAngle;
                 roundsRemaining = Random.Range(magSizeRange[0], magSizeRange[1]);
             }
             else
-            {
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, angularVelocity * Time.fixedDeltaTime);
-                return;
-            }
+
+            return;
         }
 
 
 
+        updateEstimatedIntercept();
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, angularVelocity * Time.deltaTime);
 
         if (Quaternion.Angle(transform.rotation, targetRot) < maxDeadzoneAngle)
@@ -70,18 +80,32 @@ public class PDC : MonoBehaviour
         }
         else if (transferingTarget)
             ShootRound(false);
+
+
+
+        void updateEstimatedIntercept()
+        {
+            float predictedT = EquationSolver.FindRealSolutionSmallestT(parentDrive.rb.velocity, roundSpawnPoint.position, pdcRoundSpeed, targetDrive);
+            if (float.IsInfinity(predictedT))
+            {
+                target = null;
+                return;
+            }
+
+            Vector3 relativePos = targetDrive.EstimatedPos(predictedT) - transform.position;
+            targetRot = Quaternion.LookRotation(relativePos);
+        }
     }
 
     private void ShootRound(bool hasTarget)
     {
         transform.rotation *= Quaternion.Euler((Vector3)Random.insideUnitCircle * maxRecoilAngle);
 
-        var go = Instantiate(pdcRound, transform.position, transform.rotation, transform.parent);
-        var id = go.GetComponent<InterceptDrive>();
+        var spawnedRound = Instantiate(pdcRound, roundSpawnPoint.position, transform.rotation, transform.parent);
+        var spawnedDrive = spawnedRound.GetComponent<InterceptDrive>();
 
-        id.target = hasTarget ? target.GetComponent<Rigidbody>() : null;
-        id.targetDrive = target.GetComponent<Drive>();
-        id.parent = this;
+        spawnedDrive.targetDrive = hasTarget ? targetDrive : null;
+        spawnedDrive.parent = this;
     }
 
 
