@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 
 
 public class InterceptDrive : Drive
 {
-    public PDC parent;
+    public HashSet<GameObject> shotTargets;
 
     public Drive targetDrive;
 
@@ -63,7 +64,7 @@ public class InterceptDrive : Drive
     {
         if (other.tag == "torpedo")
         {
-            parent?.TargetHit(other.gameObject);
+            shotTargets.Remove(other.gameObject);
 
             gameObject.GetComponent<Explosion>().SpawnExplosion();
             Destroy(other.gameObject);

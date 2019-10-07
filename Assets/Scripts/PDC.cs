@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,22 +11,22 @@ public class PDC : MonoBehaviour
     public Transform roundSpawnPoint;
 
     private Drive parentDrive;
-    private float pdcRoundSpeed;
+    private PDCController parentPDCContoller;
 
-    private const float range                  = 300f;
     private readonly int[] magSizeRange        = { 5, 12 };
     private const float angularVelocity        = 60f;  // Degrees per second
     private const float maxDeadzoneAngle       = 1f;   // Degrees
     private const float maxTargetTransferAngle = 10;  // Degrees
     private const float maxRecoilAngle         = 2f;  // Degrees
 
-    private readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
-
-    private GameObject target;
+    internal GameObject target;
     private Drive targetDrive;
     private Quaternion targetRot;
     private bool transferingTarget;
     private int roundsRemaining;
+
+    private float pdcRoundSpeed;
+    private HashSet<GameObject> shotTargets;
 
 
 
@@ -35,12 +34,15 @@ public class PDC : MonoBehaviour
     {
         //Time.timeScale = 2;
         parentDrive = transform.GetComponentInParent<Drive>();
+        parentPDCContoller = transform.GetComponentInParent<PDCController>();
+        shotTargets = parentPDCContoller.shotTargets;
+
         pdcRoundSpeed = pdcRound.GetComponent<InterceptDrive>().speed;
     }
 
 
 
-    void FixedUpdate()
+    public void PDCUpdate()
     {
         if (target == null) // No current target
         {
@@ -109,17 +111,10 @@ public class PDC : MonoBehaviour
         var spawnedRound = Instantiate(pdcRound, roundSpawnPoint.position, transform.rotation, GameManager.WorldTransform);
         var spawnedDrive = spawnedRound.GetComponent<InterceptDrive>();
 
-        spawnedDrive.parent = this;
+        spawnedDrive.shotTargets = shotTargets;
         spawnedDrive.targetDrive = hasTarget ? targetDrive : null;
         spawnedDrive.rb.velocity = parentDrive.rb.velocity;
 
         spawnedDrive.Initialize();
-    }
-
-
-
-    internal void TargetHit(GameObject targetHit)
-    {
-        shotTargets.Remove(targetHit);
     }
 }
