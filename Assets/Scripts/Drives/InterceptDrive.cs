@@ -66,7 +66,7 @@ public class InterceptDrive : Drive
         {
             shotTargets.Remove(other.gameObject);
 
-            gameObject.GetComponent<Explosion>().SpawnExplosion();
+            gameObject.GetComponent<Explosion>().SpawnExplosion(rb.velocity);
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class InterceptDriveAccel : Drive
 {
+    public ParticleSystem ps;
+
     public float waitTime = 5f;
 
     public Drive targetDrive;
@@ -17,12 +19,16 @@ public class InterceptDriveAccel : Drive
 
     new void Start()
     {
+        ps.Stop();
+
         StartCoroutine(StartAccelerating());
     }
 
     IEnumerator StartAccelerating()
     {
         yield return new WaitForSeconds(waitTime);
+
+        ps.Play();
 
         float t = InterceptSolverAccel.FindRealSolutionSmallestT(this, targetDrive);
         if (!float.IsInfinity(t))
@@ -53,7 +59,7 @@ public class InterceptDriveAccel : Drive
     {
         if (other.gameObject.tag == "torpedo")
         {
-            gameObject.GetComponent<Explosion>().SpawnExplosion();
+            gameObject.GetComponent<Explosion>().SpawnExplosion(rb.velocity);
             Destroy(other.gameObject);
             Destroy(gameObject);
         }
