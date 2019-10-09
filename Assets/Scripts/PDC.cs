@@ -46,7 +46,7 @@ public class PDC : MonoBehaviour
     {
         if (target == null) // No current target
         {
-            target = Physics.OverlapSphere(transform.position, range)
+            target = Physics.OverlapSphere(transform.position, 300)
                 .Where(t => t.tag == "torpedo" && !shotTargets.Contains(t.gameObject))
                 .OrderBy(t => (t.transform.position - transform.position).sqrMagnitude).FirstOrDefault()?.gameObject;
 
