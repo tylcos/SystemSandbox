@@ -37,7 +37,7 @@ public class PDC : MonoBehaviour
         parentPDCContoller = transform.GetComponentInParent<PDCController>();
         shotTargets = parentPDCContoller.shotTargets;
 
-        pdcRoundSpeed = pdcRound.GetComponent<InterceptDrive>().speed;
+        pdcRoundSpeed = pdcRound.GetComponent<InterceptDrive>().speed; ;
     }
 
 

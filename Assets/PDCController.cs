@@ -8,7 +8,7 @@ public class PDCController : MonoBehaviour
     PDC[] pdcs;
     Vector3[] pdcPositions;
 
-    private const float range = 300f;
+    private const float range = 600f;
 
     public readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
 
