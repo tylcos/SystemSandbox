@@ -29,7 +29,7 @@ public class InterceptDrive : Drive
 
 
 
-        float t = InterceptSolverNoAccel.FindRealSolutionSmallestT(this, targetDrive); print(t + Time.time);
+        float t = InterceptSolverNoAccel.FindRealSolutionSmallestT(this, targetDrive); //print(t + Time.time);
         if (!float.IsInfinity(t))
         {
             Vector3 rp = targetDrive.EstimatedPos(t) - rb.position;

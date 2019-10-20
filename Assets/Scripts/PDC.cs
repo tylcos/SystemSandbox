@@ -20,6 +20,7 @@ public class PDC : MonoBehaviour
     private const float maxRecoilAngle         = 2f;  // Degrees
 
     internal GameObject target;
+    private bool hasTarget;
     private Drive targetDrive;
     private Quaternion targetRot;
     private bool transferingTarget;
@@ -37,32 +38,28 @@ public class PDC : MonoBehaviour
         parentPDCContoller = transform.GetComponentInParent<PDCController>();
         shotTargets = parentPDCContoller.shotTargets;
 
-        pdcRoundSpeed = pdcRound.GetComponent<InterceptDrive>().speed; ;
+        pdcRoundSpeed = pdcRound.GetComponent<InterceptDrive>().speed;
     }
 
 
 
     public void PDCUpdate()
-    {
-        if (target == null) // No current target
+    { 
+        if (target == null || target) // Not working as expected
         {
-            target = Physics.OverlapSphere(transform.position, 300)
-                .Where(t => t.tag == "torpedo" && !shotTargets.Contains(t.gameObject))
-                .OrderBy(t => (t.transform.position - transform.position).sqrMagnitude).FirstOrDefault()?.gameObject;
-
-            // Could loop until a interceptable target is found but is unnecessary
-            if (target != null) // New target acqusition
-            {
-                targetDrive = target.GetComponent<Drive>();
-                updateEstimatedIntercept(); 
-
-                transferingTarget = Quaternion.Angle(transform.rotation, targetRot) < maxTargetTransferAngle;
-                roundsRemaining = Random.Range(magSizeRange[0], magSizeRange[1]);
-            }
-            else
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, angularVelocity * Time.fixedDeltaTime);
-
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, angularVelocity * Time.fixedDeltaTime);
             return;
+        }
+
+        if (target != null && !hasTarget) // New target acqusition
+        {
+            hasTarget = true;
+
+            targetDrive = target.GetComponent<Drive>();
+            updateEstimatedIntercept();
+
+            transferingTarget = Quaternion.Angle(transform.rotation, targetRot) < maxTargetTransferAngle;
+            roundsRemaining = Random.Range(magSizeRange[0], magSizeRange[1]);
         }
 
 
@@ -76,8 +73,8 @@ public class PDC : MonoBehaviour
 
             if (--roundsRemaining == 0)
             {
-                shotTargets.Add(target);
-                target = null; // Stop firing on current target
+                target = null; // Stop firing on current target, could also stop from round destroying target
+                hasTarget = false;
             }
         }
         else if (transferingTarget)
@@ -104,7 +101,7 @@ public class PDC : MonoBehaviour
         }
     }
 
-    private void ShootRound(bool hasTarget)
+    private void ShootRound(bool roundHasTarget)
     {
         transform.rotation *= Quaternion.Euler((Vector3)Random.insideUnitCircle * maxRecoilAngle);
 
@@ -112,7 +109,7 @@ public class PDC : MonoBehaviour
         var spawnedDrive = spawnedRound.GetComponent<InterceptDrive>();
 
         spawnedDrive.shotTargets = shotTargets;
-        spawnedDrive.targetDrive = hasTarget ? targetDrive : null;
+        spawnedDrive.targetDrive = roundHasTarget ? targetDrive : null;
         spawnedDrive.rb.velocity = parentDrive.rb.velocity;
 
         spawnedDrive.Initialize();

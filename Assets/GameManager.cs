@@ -17,6 +17,6 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        print(Time.time);
+        //print(Time.time);
     }
 }
