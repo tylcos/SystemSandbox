@@ -59,7 +59,7 @@ public class InterceptDriveAccel : Drive
     {
         if (other.gameObject.tag == "torpedo")
         {
-            gameObject.GetComponent<Explosion>().SpawnExplosion(rb.velocity);
+            gameObject.GetComponent<Explosion>().SpawnExplosion(rb?.velocity ?? Vector3.zero);
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

@@ -14,7 +14,7 @@ public class PDC : MonoBehaviour
     private PDCController parentPDCContoller;
 
     private readonly int[] magSizeRange        = { 5, 12 };
-    private const float angularVelocity        = 60f;  // Degrees per second
+    private const float angularVelocity        = 120f;  // Degrees per second
     private const float maxDeadzoneAngle       = 1f;   // Degrees
     private const float maxTargetTransferAngle = 10;  // Degrees
     private const float maxRecoilAngle         = 2f;  // Degrees
@@ -44,9 +44,11 @@ public class PDC : MonoBehaviour
 
 
     public void PDCUpdate()
-    { 
-        if (target == null || target) // Not working as expected
+    {
+        print(target?.name ?? "NULL");
+        if (target == null || !target) // Not working as expected
         {
+            print("NO TARGET");
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, angularVelocity * Time.fixedDeltaTime);
             return;
         }
