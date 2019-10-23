@@ -13,7 +13,7 @@ public class InterceptDriveAccel : Drive
 
 
 
-    private float lifeTime = 120f;
+    private float lifeTime = 30f;
 
 
 
@@ -59,7 +59,8 @@ public class InterceptDriveAccel : Drive
     {
         if (other.gameObject.tag == "torpedo")
         {
-            gameObject.GetComponent<Explosion>().SpawnExplosion(rb?.velocity ?? Vector3.zero);
+            gameObject.GetComponent<Explosion>().SpawnExplosion(rb.velocity);
+
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

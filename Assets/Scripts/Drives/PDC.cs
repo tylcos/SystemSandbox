@@ -20,7 +20,6 @@ public class PDC : MonoBehaviour
     private const float maxRecoilAngle         = 2f;  // Degrees
 
     internal GameObject target;
-    private bool hasTarget;
     private Drive targetDrive;
     private Quaternion targetRot;
     private bool transferingTarget;
@@ -45,18 +44,14 @@ public class PDC : MonoBehaviour
 
     public void PDCUpdate()
     {
-        print(target?.name ?? "NULL");
-        if (target == null || !target) // Not working as expected
+        if (target == null) // No current target
         {
-            print("NO TARGET");
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, angularVelocity * Time.fixedDeltaTime);
             return;
         }
 
-        if (target != null && !hasTarget) // New target acqusition
+        if (target != null && targetDrive == null) // New target acqusition
         {
-            hasTarget = true;
-
             targetDrive = target.GetComponent<Drive>();
             updateEstimatedIntercept();
 
@@ -69,29 +64,33 @@ public class PDC : MonoBehaviour
         updateEstimatedIntercept();
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, angularVelocity * Time.deltaTime);
 
-        if (Quaternion.Angle(transform.rotation, targetRot) < maxDeadzoneAngle)
+        if (parentPDCContoller.TargetInRange(transform, target)) // Only shoot when target is in range
         {
-            ShootRound(true);
-
-            if (--roundsRemaining == 0)
+            if (Quaternion.Angle(transform.rotation, targetRot) < maxDeadzoneAngle)
             {
-                target = null; // Stop firing on current target, could also stop from round destroying target
-                hasTarget = false;
+                ShootRound(true);
+
+                if (--roundsRemaining == 0)
+                {
+                    // Stop firing on current target, could also stop from round destroying target
+                    target = null;
+                    targetDrive = null;
+                }
             }
+            else if (transferingTarget)
+                ShootRound(false);
         }
-        else if (transferingTarget)
-            ShootRound(false);
 
 
 
         void updateEstimatedIntercept()
         {
             float predictedT = InterceptSolverNoAccel.FindRealSolutionSmallestT(parentDrive.rb.velocity, roundSpawnPoint.position, pdcRoundSpeed, targetDrive);
+
             if (float.IsInfinity(predictedT))
-            {
-                target = null;
                 return;
-            }
+
+
 
             Vector3 rp = targetDrive.EstimatedPos(predictedT) - roundSpawnPoint.position;
 

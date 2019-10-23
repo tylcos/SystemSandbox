@@ -5,13 +5,16 @@ using JM.LinqFaster;
 using System;
 using System.Diagnostics;
 
+
+
 public class PDCController : MonoBehaviour
 {
     PDC[] pdcs;
 
-    private const float range = 600f;
+    private const float effectivePDCRange = 500f;
+    private const float detectionRange    = 750f;
 
-    public readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
+    internal readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
 
 
 
@@ -24,7 +27,7 @@ public class PDCController : MonoBehaviour
     { 
         Stopwatch sw = Stopwatch.StartNew();
 
-        Collider[] targets = Physics.OverlapSphere(transform.position, range)
+        Collider[] targets = Physics.OverlapSphere(transform.position, detectionRange)
                 .WhereF(t => t.tag == "torpedo" && !shotTargets.Contains(t.gameObject));
 
         if (targets.FirstOrDefaultF() != null)
@@ -78,4 +81,9 @@ public class PDCController : MonoBehaviour
             return (minIndex, source[minIndex]);
         }
     }
+
+
+
+    public bool TargetInRange(Transform pdc, GameObject target) 
+        => (target.transform.position - pdc.position).magnitude < effectivePDCRange;
 }

@@ -36,7 +36,6 @@ public static class InterceptSolverNoAccel
 
     public static float FindRealSolutionSmallestT(Vector3 currentVelocity, Vector3 currentPos, float speed, Drive targetDrive)
     {
-
         Vector3 rv = targetDrive.rb.velocity - currentVelocity;
         Vector3 rp = targetDrive.rb.position - currentPos;
 
