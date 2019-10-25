@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class TorpedoLauncher : MonoBehaviour
 {
     public Drive parent;
@@ -13,6 +15,7 @@ public class TorpedoLauncher : MonoBehaviour
     public float waitTime = 3f;
     public float torpedoAccel = 20f;
     public Vector3 initalV = Vector3.forward;
+
     public int SpawnRate = 50;
 
     private int i;

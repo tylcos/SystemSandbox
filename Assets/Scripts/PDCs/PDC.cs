@@ -112,7 +112,5 @@ public class PDC : MonoBehaviour
         spawnedDrive.shotTargets = shotTargets;
         spawnedDrive.targetDrive = roundHasTarget ? targetDrive : null;
         spawnedDrive.rb.velocity = parentDrive.rb.velocity;
-
-        spawnedDrive.Initialize();
     }
 }

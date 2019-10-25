@@ -17,11 +17,11 @@ public class InterceptDrive : Drive
 
 
 
-    public void Initialize()
+    new void Start()
     {
         base.Start();
 
-        if (targetDrive == null)
+        if (targetDrive == null) // Shooting at nothing
         {
             rb.velocity += transform.forward.normalized * speed;
             return;
@@ -39,7 +39,7 @@ public class InterceptDrive : Drive
             Vector3 towardsTargetVel = rp.normalized * Mathf.Sqrt(speed * speed - wastedVel.sqrMagnitude);
             Vector3 resultVel = wastedVel + towardsTargetVel;
 
-            rb.velocity += wastedVel + towardsTargetVel;
+            rb.velocity += resultVel;
             transform.rotation = Quaternion.LookRotation(resultVel);
 
 
