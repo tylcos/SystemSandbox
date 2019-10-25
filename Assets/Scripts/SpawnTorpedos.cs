@@ -19,8 +19,5 @@ public class SpawnTorpedos : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(Random.Range(-100f, 100f), Random.Range(-100f, 100f), Random.Range(200f, 300f));
         GameObject spawnedTorpedo = Instantiate(torpedo, spawnPos, Quaternion.identity, transform);
-        Drive drive = spawnedTorpedo.GetComponent<Drive>();
-
-        drive.accelVec = (target.position - spawnedTorpedo.transform.position).normalized * a;
     }
 }
