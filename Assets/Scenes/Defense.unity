@@ -344,7 +344,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -397,7 +397,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 20
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1094,7 +1094,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 20
+      scalar: 50
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5005,6 +5005,7 @@ MonoBehaviour:
   accelVec: {x: 1, y: 0, z: 0}
   accel: 0
   iV: {x: 5, y: 0, z: 0}
+  drivePowered: 1
 --- !u!54 &387161980
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6241,6 +6242,7 @@ GameObject:
   - component: {fileID: 1806908071}
   - component: {fileID: 1806908072}
   - component: {fileID: 1806908070}
+  - component: {fileID: 1806908073}
   m_Layer: 0
   m_Name: Rocinante
   m_TagString: Untagged
@@ -6261,9 +6263,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1806908072}
-  accelVec: {x: 10, y: 0, z: 0}
-  accel: 0
+  accelVec: {x: 0, y: 0, z: 0}
+  accel: 20
   iV: {x: 5, y: 0, z: 0}
+  drivePowered: 1
 --- !u!4 &1806908071
 Transform:
   m_ObjectHideFlags: 0
@@ -6296,6 +6299,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!111 &1806908073
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806908069}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 2664e2a74dd4ec6469a9b808fda6298a, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 2664e2a74dd4ec6469a9b808fda6298a, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1001 &1853969446
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6525,6 +6544,7 @@ MonoBehaviour:
   accelVec: {x: 1, y: 0, z: 0}
   accel: 0
   iV: {x: 5, y: 0, z: 0}
+  drivePowered: 1
 --- !u!4 &1914444508
 Transform:
   m_ObjectHideFlags: 0
@@ -6649,6 +6669,7 @@ MonoBehaviour:
   accelVec: {x: 1, y: 0, z: 0}
   accel: 0
   iV: {x: 5, y: 0, z: 0}
+  drivePowered: 1
 --- !u!54 &2144396302
 Rigidbody:
   m_ObjectHideFlags: 0

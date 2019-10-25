@@ -5,6 +5,9 @@
 public class SimpleDrive : Drive
 {
     public Vector3 iV = new Vector3(0, 0, 0);
+    public bool drivePowered = true;
+
+    private float currentAccel;
 
 
 
@@ -19,6 +22,8 @@ public class SimpleDrive : Drive
 
     void FixedUpdate()
     {
-        rb.AddForce(accelVec, ForceMode.Acceleration);
+        currentAccel = drivePowered ? accel : 0f;
+
+        rb.AddForce(transform.forward * currentAccel, ForceMode.Acceleration);
     }
 }
