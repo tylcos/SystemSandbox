@@ -25,9 +25,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4553448171163068229}
-  m_LocalRotation: {x: -0.00000011920926, y: -0.00000018038777, z: -1, w: 0.0000029057262}
+  m_LocalRotation: {x: -0, y: 0, z: -1, w: -0.0000001872535}
   m_LocalPosition: {x: -47.51, y: 23.79, z: 0}
-  m_LocalScale: {x: 6.113515, y: 2.2357955, z: 6.1135125}
+  m_LocalScale: {x: 6.113524, y: 2.2357974, z: 6.113516}
   m_Children:
   - {fileID: 4553448172385547721}
   - {fileID: 4553448173128464821}
@@ -105,7 +105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4553448172385547720}
   m_LocalRotation: {x: 0.7071058, y: -0, z: -0, w: 0.70710784}
-  m_LocalPosition: {x: -0, y: -5.9, z: 0}
+  m_LocalPosition: {x: 0, y: -4.7, z: -0}
   m_LocalScale: {x: 5.837263, y: 5.837263, z: 5.5673947}
   m_Children: []
   m_Father: {fileID: 4553448171163068230}
@@ -246,7 +246,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 2
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -2211,7 +2211,7 @@ ParticleSystem:
     inWorldSpace: 0
   InheritVelocityModule:
     enabled: 0
-    m_Mode: 0
+    m_Mode: 1
     m_Curve:
       serializedVersion: 2
       minMaxState: 0

@@ -8,47 +8,54 @@ using UnityEngine;
 
 public class AttitudeController : MonoBehaviour
 {
+    public Transform referenceSpace;
+
     public ParticleSystem[] pitchUp = new ParticleSystem[2];
     public ParticleSystem[] pitchDown = new ParticleSystem[2];
-
-    public ParticleSystem[] rollLeft = new ParticleSystem[2];
-    public ParticleSystem[] rollRight = new ParticleSystem[2];
 
     public ParticleSystem[] yawLeft = new ParticleSystem[2];
     public ParticleSystem[] yawRight = new ParticleSystem[2];
 
+    public ParticleSystem[] rollLeft = new ParticleSystem[2];
+    public ParticleSystem[] rollRight = new ParticleSystem[2];
 
-    private float emissionRate;
 
 
     private void Start()
     {
-        emissionRate = pitchUp[0].emissionRate;
+        ForEach(transform.GetComponentsInChildren<ParticleSystem>(), 
+            t => { var main = t.main;
+                main.simulationSpace = ParticleSystemSimulationSpace.Custom;
+                main.customSimulationSpace = referenceSpace; });
     }
 
 
 
     private void Update()
     {
-        if (Input.GetAxisRaw("Depth") > 0f)
-            ForEach(pitchDown, t => t.Play(), t => t.emissionRate = emissionRate);
-        else
-            ForEach(pitchDown, t => t.Pause(), t => t.emissionRate = 0f);
+        UpdateThrusters("Depth", pitchUp, pitchDown);
+        UpdateThrusters("Horizontal", yawLeft, yawRight);
+        UpdateThrusters("Roll", rollLeft, rollRight);
+    }
 
-        if (Input.GetAxisRaw("Depth") < 0f)
-            ForEach(pitchUp, t => t.Play(), t => t.emissionRate = emissionRate);
+    private void UpdateThrusters(string inputAxis, ParticleSystem[] up, ParticleSystem[] down)
+    {
+        if (Input.GetAxisRaw(inputAxis) > 0f)
+            ForEach(down, t => { if (!t.isPlaying) { t.Play(); } });
         else
-            ForEach(pitchUp, t => t.Pause(), t => t.emissionRate = 0f);
+            ForEach(down, t => t.Stop());
 
+        if (Input.GetAxisRaw(inputAxis) < 0f)
+            ForEach(up, t => { if (!t.isPlaying) { t.Play(); } });
+        else
+            ForEach(up, t => t.Stop());
     }
 
 
 
-    private void ForEach<T>(T[] array, params Action<T>[] actions)
+    private void ForEach<T>(T[] array, Action<T> action)
     {
         foreach (T item in array)
-            foreach (var action in actions)
-                action(item);
-
+            action(item);
     }
 }
