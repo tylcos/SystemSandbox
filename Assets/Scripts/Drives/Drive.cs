@@ -13,6 +13,7 @@ public class Drive : MonoBehaviour
     internal void Start()
     {
         rb = GetComponent<Rigidbody>();
+        accelVec = accelVec.normalized * accel;
     }
 
 

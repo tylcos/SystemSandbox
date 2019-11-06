@@ -33,6 +33,9 @@ public class InterceptDriveAccel : Drive
         float t = InterceptSolverAccel.FindRealSolutionSmallestT(this, targetDrive);
         if (!float.IsInfinity(t))
         {
+            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            go.transform.position = targetDrive.EstimatedPos(t);
+
             Vector3 rp = targetDrive.EstimatedPos(t) - rb.position;
 
             Vector3 wastedAccel = -2f * (rb.velocity - Vector3.Project(rb.velocity, rp)) / t; 

@@ -38,6 +38,8 @@ public class AttitudeController : MonoBehaviour
         UpdateThrusters("Roll", rollLeft, rollRight);
     }
 
+
+
     private void UpdateThrusters(string inputAxis, ParticleSystem[] up, ParticleSystem[] down)
     {
         if (Input.GetAxisRaw(inputAxis) > 0f)
@@ -50,8 +52,6 @@ public class AttitudeController : MonoBehaviour
         else
             ForEach(up, t => t.Stop());
     }
-
-
 
     private void ForEach<T>(T[] array, Action<T> action)
     {

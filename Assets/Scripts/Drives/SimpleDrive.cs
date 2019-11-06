@@ -24,6 +24,6 @@ public class SimpleDrive : Drive
     {
         currentAccel = drivePowered ? accel : 0f;
 
-        rb.AddForce(transform.forward * currentAccel, ForceMode.Acceleration);
+        rb.AddForce(transform.GetChild(0).forward * currentAccel, ForceMode.Acceleration);
     }
 }
