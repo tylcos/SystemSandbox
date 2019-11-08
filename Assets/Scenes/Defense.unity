@@ -5726,7 +5726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &645661047
 Transform:
   m_ObjectHideFlags: 0
@@ -6046,7 +6046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 036773b2f69496442b49d8290240f295, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 036773b2f69496442b49d8290240f295, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6548,7 +6548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 4c13a4c207e0bcf4db024a0dc4305867, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4c13a4c207e0bcf4db024a0dc4305867, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6661,7 +6661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: db60c16b6987ece46838353369e284bc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: db60c16b6987ece46838353369e284bc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7293,6 +7293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   referenceSpace: {fileID: 162077037}
+  ship: {fileID: 1806908071}
   pitchUp:
   - {fileID: 1942819321}
   - {fileID: 218813654}
@@ -7330,7 +7331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 2e3374610f829974c9c172cc72e7d3f6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 2e3374610f829974c9c172cc72e7d3f6, type: 3}
       propertyPath: m_LocalPosition.x

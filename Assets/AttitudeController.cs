@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 
@@ -9,6 +6,7 @@ using UnityEngine;
 public class AttitudeController : MonoBehaviour
 {
     public Transform referenceSpace;
+    public Transform ship;
 
     public ParticleSystem[] pitchUp = new ParticleSystem[2];
     public ParticleSystem[] pitchDown = new ParticleSystem[2];
@@ -33,21 +31,28 @@ public class AttitudeController : MonoBehaviour
 
     private void Update()
     {
-        UpdateThrusters("Depth", pitchUp, pitchDown);
-        UpdateThrusters("Horizontal", yawLeft, yawRight);
-        UpdateThrusters("Roll", rollLeft, rollRight);
+        Vector3 attitudeInput = new Vector3(Input.GetAxisRaw("Depth"), Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Roll"));
+
+        UpdateThrusters(attitudeInput.x, pitchUp, pitchDown);
+        UpdateThrusters(attitudeInput.y, yawLeft, yawRight);
+        UpdateThrusters(attitudeInput.z, rollLeft, rollRight);
+
+
+
+        Quaternion attitudeChange = ship.rotation * Quaternion.Euler(attitudeInput * 10);
+        ship.rotation = Quaternion.RotateTowards(ship.rotation, attitudeChange, 60 * Time.fixedDeltaTime);
     }
 
 
 
-    private void UpdateThrusters(string inputAxis, ParticleSystem[] up, ParticleSystem[] down)
+    private void UpdateThrusters(float input, ParticleSystem[] up, ParticleSystem[] down)
     {
-        if (Input.GetAxisRaw(inputAxis) > 0f)
+        if (input > 0f)
             ForEach(down, t => { if (!t.isPlaying) { t.Play(); } });
         else
             ForEach(down, t => t.Stop());
 
-        if (Input.GetAxisRaw(inputAxis) < 0f)
+        if (input < 0f)
             ForEach(up, t => { if (!t.isPlaying) { t.Play(); } });
         else
             ForEach(up, t => t.Stop());
