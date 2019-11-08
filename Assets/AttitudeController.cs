@@ -29,13 +29,13 @@ public class AttitudeController : MonoBehaviour
 
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         Vector3 attitudeInput = new Vector3(Input.GetAxisRaw("Depth"), Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Roll"));
 
         UpdateThrusters(attitudeInput.x, pitchUp, pitchDown);
         UpdateThrusters(attitudeInput.y, yawLeft, yawRight);
-        UpdateThrusters(attitudeInput.z, rollLeft, rollRight);
+        UpdateThrusters(attitudeInput.z, rollRight, rollLeft);
 
 
 
