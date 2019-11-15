@@ -15,7 +15,7 @@ public class SimpleDrive : Drive
     {
         transform.LookAt(transform.position + accelVec);
 
-        rb.velocity = iV;
+        rb.velocity = Quaternion.LookRotation(transform.forward, transform.up) * iV;
     }
 
 
@@ -24,6 +24,6 @@ public class SimpleDrive : Drive
     {
         currentAccel = drivePowered ? accel : 0f;
 
-        rb.AddForce(transform.GetChild(0).forward * currentAccel, ForceMode.Acceleration);
+        rb.AddForce(transform.forward * currentAccel, ForceMode.Acceleration);
     }
 }

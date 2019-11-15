@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 
@@ -19,6 +17,13 @@ public class TorpedoLauncher : MonoBehaviour
     public int SpawnRate = 50;
 
     private int i;
+
+
+
+    void Start()
+    {
+        initalV = Quaternion.LookRotation(transform.parent.forward, transform.up) * initalV;
+    }
 
 
 
