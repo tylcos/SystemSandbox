@@ -35,7 +35,7 @@ Transform:
 --- !u!199 &682698756035742682
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4759,7 +4759,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bef1f6da244c907409aaa4462b6e826f, type: 2}
+  - {fileID: 2100000, guid: 09b0fda0f53e1e64a8b8e8bfaa2c18c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4921,4 +4921,4 @@ LensFlare:
   m_IgnoreLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Directional: 1
+  m_Directional: 0

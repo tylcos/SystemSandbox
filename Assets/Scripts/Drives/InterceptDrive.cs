@@ -64,6 +64,7 @@ public class InterceptDrive : Drive
         if (other.tag == "torpedo")
         {
             shotTargets.Remove(other.gameObject);
+            GameManager.TorpedosDestroyed++;
 
             gameObject.GetComponent<Explosion>().SpawnExplosion(rb.velocity);
             Destroy(other.gameObject);

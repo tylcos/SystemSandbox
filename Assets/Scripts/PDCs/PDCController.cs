@@ -11,8 +11,8 @@ public class PDCController : MonoBehaviour
 {
     PDC[] pdcs;
 
-    private const float effectivePDCRange = 500f;
-    private const float detectionRange    = 1000f;
+    private const float effectivePDCRange = 1000f;
+    private const float detectionRange    = 1500f;
 
     internal readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
 

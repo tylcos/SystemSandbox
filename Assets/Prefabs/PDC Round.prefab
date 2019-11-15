@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8322999058791918928}
   - component: {fileID: 3726182971038965086}
+  - component: {fileID: 5035784273792390945}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -43,7 +44,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0, b: 0.12284136, a: 1}
   m_Intensity: 1
-  m_Range: 30
+  m_Range: 50
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -56,7 +57,7 @@ Light:
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
-  m_Flare: {fileID: 12100000, guid: 510d3e03d87648943971c96f58b924ed, type: 2}
+  m_Flare: {fileID: 0}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
@@ -69,6 +70,22 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!123 &5035784273792390945
+LensFlare:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5212546595071209483}
+  m_Enabled: 1
+  m_Flare: {fileID: 12100000, guid: 510d3e03d87648943971c96f58b924ed, type: 2}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
+  m_Brightness: 1.5
+  m_FadeSpeed: 3
+  m_IgnoreLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Directional: 0
 --- !u!1 &8702055259935637724
 GameObject:
   m_ObjectHideFlags: 0

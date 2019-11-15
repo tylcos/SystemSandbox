@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4657497382128574}
   - component: {fileID: 1444771333852427397}
   - component: {fileID: 8637005760629828289}
+  - component: {fileID: 3728565674908290317}
+  - component: {fileID: 5592588084458797588}
   m_Layer: 0
   m_Name: SF_Free-Fighter
   m_TagString: Untagged
@@ -67,6 +69,32 @@ MonoBehaviour:
   accel: 0
   iV: {x: 0, y: 0, z: 0}
   drivePowered: 1
+--- !u!64 &3728565674908290317
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152354105411914}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: f24986c5005449f4e96046f5edb103a7, type: 3}
+--- !u!114 &5592588084458797588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152354105411914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d33e1e1a89c3b7d4cb31341bd9aed7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &616100969716137155
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,7 +169,7 @@ Light:
 --- !u!199 &5150496356819652139
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4989,7 +5017,7 @@ Light:
 --- !u!199 &2957093774504607979
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -9804,7 +9832,7 @@ Light:
 --- !u!199 &5382214567584089169
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -14619,7 +14647,7 @@ Light:
 --- !u!199 &3506381965184491253
 ParticleSystemRenderer:
   serializedVersion: 6
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

@@ -43,8 +43,13 @@ public class InterceptDriveAccel : Drive
 
             Vector3 wastedAccel = -2f * (rb.velocity - Vector3.Project(rb.velocity, rp)) / t; 
             Vector3 towardsTargetAccel = rp.normalized * Mathf.Sqrt(accel * accel - wastedAccel.sqrMagnitude);
-
             accelVec = wastedAccel + towardsTargetAccel;
+
+            //accelVec = (2f * (rp - rb.velocity * t) / (t * t)).normalized * accel;
+
+            //accelVec = rp.normalized * accel;
+            
+
             transform.rotation = Quaternion.LookRotation(accelVec);
         }
     }
@@ -73,7 +78,7 @@ public class InterceptDriveAccel : Drive
                 Destroy(gameObject);
             }
         }
-        catch (NullReferenceException e)
+        catch (NullReferenceException)
         {
             print("[InterceptDriveAccel] NRE");
         }
