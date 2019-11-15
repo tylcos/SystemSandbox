@@ -20,6 +20,9 @@ public static class InterceptSolverNoAccel
 
     public static float FindRealSolutionSmallestT(InterceptDrive drive, Drive targetDrive)
     {
+        if (drive == null || targetDrive == null)
+            return float.PositiveInfinity;
+
         Vector3 rv = targetDrive.rb.velocity - drive.rb.velocity;
         Vector3 rp = targetDrive.rb.position - drive.rb.position;
 
@@ -36,6 +39,9 @@ public static class InterceptSolverNoAccel
 
     public static float FindRealSolutionSmallestT(Vector3 currentVelocity, Vector3 currentPos, float speed, Drive targetDrive)
     {
+        if (targetDrive == null)
+            return float.PositiveInfinity;
+
         Vector3 rv = targetDrive.rb.velocity - currentVelocity;
         Vector3 rp = targetDrive.rb.position - currentPos;
 
@@ -57,6 +63,9 @@ public static class InterceptSolverAccel
 {
     public static float FindRealSolutionSmallestT(InterceptDriveAccel drive, Drive targetDrive)
     {
+        if (drive == null || targetDrive == null)
+            return float.PositiveInfinity;
+
         Vector3 rv = targetDrive.rb.velocity - drive.rb.velocity;
         Vector3 rp = targetDrive.rb.position - drive.rb.position;
 

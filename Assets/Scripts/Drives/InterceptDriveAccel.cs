@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 
@@ -33,8 +34,10 @@ public class InterceptDriveAccel : Drive
         float t = InterceptSolverAccel.FindRealSolutionSmallestT(this, targetDrive);
         if (!float.IsInfinity(t))
         {
-            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            go.transform.position = targetDrive.EstimatedPos(t);
+            //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //go.transform.position = targetDrive.EstimatedPos(t);
+
+
 
             Vector3 rp = targetDrive.EstimatedPos(t) - rb.position;
 
@@ -60,12 +63,20 @@ public class InterceptDriveAccel : Drive
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "torpedo")
+        try
         {
-            gameObject.GetComponent<Explosion>().SpawnExplosion(rb.velocity);
+            if (other.gameObject.tag == "torpedo")
+            {
+                gameObject.GetComponent<Explosion>().SpawnExplosion(rb.velocity);
 
-            Destroy(other.gameObject);
-            Destroy(gameObject);
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            }
         }
+        catch (NullReferenceException e)
+        {
+            print("[InterceptDriveAccel] NRE");
+        }
+        
     }
 }

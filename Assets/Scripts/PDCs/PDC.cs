@@ -46,7 +46,8 @@ public class PDC : MonoBehaviour
     {
         if (target == null) // No current target
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, angularVelocity * Time.fixedDeltaTime);
+            Quaternion defaultRot = Quaternion.LookRotation(transform.parent.forward, transform.parent.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, defaultRot, angularVelocity * Time.deltaTime);
             return;
         }
 
@@ -61,8 +62,9 @@ public class PDC : MonoBehaviour
 
 
 
-        updateEstimatedIntercept();
+        updateEstimatedIntercept(); 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, angularVelocity * Time.deltaTime);
+        transform.rotation = Quaternion.LookRotation(transform.forward, transform.parent.up);
 
         if (parentPDCContoller.TargetInRange(transform, target)) // Only shoot when target is in range
         {
@@ -98,7 +100,8 @@ public class PDC : MonoBehaviour
             Vector3 wastedVel = -(parentDrive.rb.velocity - projectedWastedVel);
             Vector3 towardsTargetVel = rp.normalized * Mathf.Sqrt(pdcRoundSpeed * pdcRoundSpeed - wastedVel.sqrMagnitude);
 
-            targetRot = Quaternion.LookRotation(wastedVel + towardsTargetVel);
+            targetRot = Quaternion.LookRotation(wastedVel + towardsTargetVel, transform.parent.up);
+
         }
     }
 

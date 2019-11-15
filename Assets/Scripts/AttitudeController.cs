@@ -6,7 +6,7 @@ using UnityEngine;
 public class AttitudeController : MonoBehaviour
 {
     public Transform referenceSpace;
-    public Transform ship;
+    public Rigidbody shipRb;
 
     public ParticleSystem[] pitchUp = new ParticleSystem[2];
     public ParticleSystem[] pitchDown = new ParticleSystem[2];
@@ -19,28 +19,36 @@ public class AttitudeController : MonoBehaviour
 
 
 
+    private const float thrusterForce = 100f;
+
+
+
     private void Start()
     {
         ForEach(transform.GetComponentsInChildren<ParticleSystem>(), 
             t => { var main = t.main;
                 main.simulationSpace = ParticleSystemSimulationSpace.Custom;
                 main.customSimulationSpace = referenceSpace; });
+
+            
+
+        shipRb.maxAngularVelocity = 2f;
     }
 
 
 
     private void FixedUpdate()
     {
-        Vector3 attitudeInput = new Vector3(Input.GetAxisRaw("Depth"), Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Roll"));
+        Vector3 attitudeInput = new Vector3(-Input.GetAxisRaw("Roll"), Input.GetAxisRaw("Horizontal"), -Input.GetAxisRaw("Depth"));
 
-        UpdateThrusters(attitudeInput.x, pitchUp, pitchDown);
+        UpdateThrusters(attitudeInput.z, pitchDown, pitchUp);
         UpdateThrusters(attitudeInput.y, yawLeft, yawRight);
-        UpdateThrusters(attitudeInput.z, rollRight, rollLeft);
+        UpdateThrusters(attitudeInput.x, rollRight, rollLeft);
 
 
 
-        Quaternion attitudeChange = ship.rotation * Quaternion.Euler(attitudeInput * 10);
-        ship.rotation = Quaternion.RotateTowards(ship.rotation, attitudeChange, 60 * Time.fixedDeltaTime);
+        Vector3 attitudeTorque = Quaternion.LookRotation(transform.forward, transform.up) * attitudeInput;
+        shipRb.AddTorque(attitudeTorque * thrusterForce * Time.fixedDeltaTime, ForceMode.Acceleration);
     }
 
 

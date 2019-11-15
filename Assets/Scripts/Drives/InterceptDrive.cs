@@ -21,7 +21,8 @@ public class InterceptDrive : Drive
     {
         base.Start();
 
-        if (targetDrive == null) // Shooting at nothing
+        float t = InterceptSolverNoAccel.FindRealSolutionSmallestT(this, targetDrive); //print(t + Time.time);
+        if (targetDrive == null || float.IsInfinity(t)) // Shooting at nothing or cannot hit the target
         {
             rb.velocity += transform.forward.normalized * speed;
             return;
@@ -29,25 +30,23 @@ public class InterceptDrive : Drive
 
 
 
-        float t = InterceptSolverNoAccel.FindRealSolutionSmallestT(this, targetDrive); //print(t + Time.time);
-        if (!float.IsInfinity(t))
-        {
-            Vector3 rp = targetDrive.EstimatedPos(t) - rb.position;
+        Vector3 rp = targetDrive.EstimatedPos(t) - rb.position;
 
-            Vector3 projectedWastedVel = Vector3.Project(rb.velocity, rp);
-            Vector3 wastedVel = -(rb.velocity - projectedWastedVel);
-            Vector3 towardsTargetVel = rp.normalized * Mathf.Sqrt(speed * speed - wastedVel.sqrMagnitude);
-            Vector3 resultVel = wastedVel + towardsTargetVel;
-
-            rb.velocity += resultVel;
-            transform.rotation = Quaternion.LookRotation(resultVel);
+        Vector3 projectedWastedVel = Vector3.Project(rb.velocity, rp);
+        Vector3 wastedVel = -(rb.velocity - projectedWastedVel);
+        Vector3 towardsTargetVel = rp.normalized * Mathf.Sqrt(speed * speed - wastedVel.sqrMagnitude);
+        Vector3 resultVel = wastedVel + towardsTargetVel;
 
 
-            /*
-            var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            g.transform.position = targetDrive.EstimatedPos(t);
-            Destroy(g.GetComponent<SphereCollider>()); */
-        }
+
+        rb.velocity += resultVel;
+        transform.rotation = Quaternion.LookRotation(resultVel);
+
+
+        /*
+        var g = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        g.transform.position = targetDrive.EstimatedPos(t);
+        Destroy(g.GetComponent<SphereCollider>()); */
     }
 
 
