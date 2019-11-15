@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         gameManager.loseText.text = loseText == "" ? "You failed to protect the capital ship!" : loseText;
         gameManager.scoreText.text = "Score = " + TorpedosDestroyed;
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
 
         UnityEngine.SceneManagement.SceneManager.LoadScene("Defense");
     }

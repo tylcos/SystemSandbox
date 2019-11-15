@@ -13,7 +13,7 @@ public class InterceptDrive : Drive
 
 
 
-    private float lifeTime = 30f;
+    private float lifeTime = 10f;
 
 
 
