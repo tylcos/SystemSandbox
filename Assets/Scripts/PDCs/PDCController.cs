@@ -11,7 +11,7 @@ public class PDCController : MonoBehaviour
 {
     PDC[] pdcs;
 
-    private const float effectivePDCRange = 1000f;
+    private const float effectivePDCRange = 1250f;
     private const float detectionRange    = 1500f;
 
     internal readonly HashSet<GameObject> shotTargets = new HashSet<GameObject>();
@@ -22,6 +22,8 @@ public class PDCController : MonoBehaviour
     {
         pdcs = GetComponentsInChildren<PDC>();
     }
+
+
 
     void FixedUpdate()
     { 
@@ -41,7 +43,7 @@ public class PDCController : MonoBehaviour
 
             List<Collider> removedTargets = new List<Collider>();
 
-            for (int i = 0; i < availablePDCs.Length && removedTargets.Count != targets.Length; i++)
+            for (int i = 0; i < availablePDCs.Length && removedTargets.Count < targets.Length; i++)
             {
                 //print($"[PDC] Targets = {targets.Length}, removed = {String.Join(" ", removedTargets.SelectF(t => t.name))}");
                 var (index, value) = MinIndex(computedTargets, tList => tList.First(t => !removedTargets.Contains(t.Target)).Distance);

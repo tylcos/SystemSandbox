@@ -13,10 +13,10 @@ public class PDC : MonoBehaviour
     private Drive parentDrive;
     private PDCController parentPDCContoller;
 
-    private readonly int[] magSizeRange        = { 10, 50 };
-    private const float angularVelocity        = 120f; // Degrees per second
+    private readonly int[] magSizeRange        = { 5, 15 };
+    private const float angularVelocity        = 150f; // Degrees per second
     private const float maxDeadzoneAngle       = 1f;   // Degrees
-    private const float maxTargetTransferAngle = 10f;  // Degrees
+    private const float maxTargetTransferAngle = 15f;  // Degrees
     private const float maxRecoilAngle         = 2f;   // Degrees
 
     internal GameObject target;

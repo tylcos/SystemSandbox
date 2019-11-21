@@ -82,6 +82,5 @@ public class InterceptDriveAccel : Drive
         {
             print("[InterceptDriveAccel] NRE");
         }
-        
     }
 }

@@ -52,6 +52,6 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(10f);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Defense");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu")  ;
     }
 }

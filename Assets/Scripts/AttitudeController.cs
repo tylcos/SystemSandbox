@@ -41,6 +41,8 @@ public class AttitudeController : MonoBehaviour
     {
         Vector3 attitudeInput = new Vector3(-Input.GetAxisRaw("Roll"), Input.GetAxisRaw("Horizontal"), -Input.GetAxisRaw("Depth"));
 
+
+
         UpdateThrusters(attitudeInput.z, pitchDown, pitchUp);
         UpdateThrusters(attitudeInput.y, yawLeft, yawRight);
         UpdateThrusters(attitudeInput.x, rollRight, rollLeft);
