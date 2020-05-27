@@ -45,11 +45,7 @@ public class PDC : MonoBehaviour
     public void PDCUpdate()
     {
         if (target == null) // No current target
-        {
-            Quaternion defaultRot = Quaternion.LookRotation(transform.parent.forward, transform.parent.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, defaultRot, angularVelocity * Time.deltaTime);
             return;
-        }
 
         if (target != null && targetDrive == null) // New target acqusition
         {
@@ -64,7 +60,7 @@ public class PDC : MonoBehaviour
 
         updateEstimatedIntercept(); 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, angularVelocity * Time.deltaTime);
-        transform.rotation = Quaternion.LookRotation(transform.forward, transform.parent.up);
+        transform.rotation = Quaternion.LookRotation(transform.forward, transform.parent.up); // Prevent weird rotations
 
         if (parentPDCContoller.TargetInRange(transform, target)) // Only shoot when target is in range
         {
@@ -72,14 +68,10 @@ public class PDC : MonoBehaviour
             {
                 ShootRound(true);
 
-                if (--roundsRemaining == 0)
-                {
-                    // Stop firing on current target, could also stop from round destroying target
-                    target = null;
-                    targetDrive = null;
-                }
+                if (--roundsRemaining == 0) // Stop firing on current target, could also stop from round destroying target
+                    ClearTarget();
             }
-            else if (transferingTarget)
+            else if (transferingTarget) // Shooting just for looks
                 ShootRound(false);
         }
 
@@ -87,13 +79,18 @@ public class PDC : MonoBehaviour
 
         void updateEstimatedIntercept()
         {
-            float predictedT = InterceptSolverNoAccel.FindRealSolutionSmallestT(parentDrive.rb.velocity, roundSpawnPoint.position, pdcRoundSpeed, targetDrive);
+            float predictedT = InterceptSolverNoAccel.FindRealSolutionSmallestT(
+                parentDrive.rb.velocity, roundSpawnPoint.position, pdcRoundSpeed, targetDrive);
 
-            if (float.IsInfinity(predictedT))
+            if (float.IsInfinity(predictedT)) // Can never hit the target
+            {
+                ClearTarget();
                 return;
+            }
+                
 
 
-
+            // 99% Sure these calculations are slightly off
             Vector3 rp = targetDrive.EstimatedPos(predictedT) - roundSpawnPoint.position;
 
             Vector3 projectedWastedVel = Vector3.Project(parentDrive.rb.velocity, rp);
@@ -101,7 +98,6 @@ public class PDC : MonoBehaviour
             Vector3 towardsTargetVel = rp.normalized * Mathf.Sqrt(pdcRoundSpeed * pdcRoundSpeed - wastedVel.sqrMagnitude);
 
             targetRot = Quaternion.LookRotation(wastedVel + towardsTargetVel, transform.parent.up);
-
         }
     }
 
@@ -115,5 +111,14 @@ public class PDC : MonoBehaviour
         spawnedDrive.shotTargets = shotTargets;
         spawnedDrive.targetDrive = roundHasTarget ? targetDrive : null;
         spawnedDrive.rb.velocity = parentDrive.rb.velocity;
+    }
+
+
+
+    private void ClearTarget()
+    {
+        target = null;
+        targetDrive = null;
+        targetRot = Quaternion.LookRotation(transform.parent.forward, transform.parent.up);
     }
 }

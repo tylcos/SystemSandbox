@@ -27,32 +27,35 @@ public class PDCController : MonoBehaviour
 
     void FixedUpdate()
     { 
-        Stopwatch sw = Stopwatch.StartNew();
-
         Collider[] targets = Physics.OverlapSphere(transform.position, detectionRange)
                 .WhereF(t => t.tag == "torpedo" && !shotTargets.Contains(t.gameObject));
 
         if (targets.FirstOrDefaultF() != null)
         {
+            Stopwatch sw = Stopwatch.StartNew();
+
             PDC[] availablePDCs = pdcs.WhereF(p => p.target == null);
+
+            // Computes the distance to each target for each PDC. List<Enumerable<Anonymous TargetInfo>>
             var computedTargets = availablePDCs.Select(p =>
-                targets.SelectF(t => new { Distance = (t.transform.position - p.transform.position).sqrMagnitude, Target = t })
-                .OrderBy(t => t.Distance)).ToList();
+                targets.SelectF(t => new { Dis = Distance(p, t), Target = t })
+                .OrderBy(t => t.Dis)).ToList();
 
 
 
-            List<Collider> removedTargets = new List<Collider>();
+            List<Collider> removedTargets = new List<Collider>(); // Used to prevent 2 PDCs from targeting the same target
 
+            // Assigns the closest target to each PDC, a perfect metric would include the target velocity and targeting time for the PDC
             for (int i = 0; i < availablePDCs.Length && removedTargets.Count < targets.Length; i++)
             {
-                //print($"[PDC] Targets = {targets.Length}, removed = {String.Join(" ", removedTargets.SelectF(t => t.name))}");
-                var (index, value) = MinIndex(computedTargets, tList => tList.First(t => !removedTargets.Contains(t.Target)).Distance);
-                Collider minTarget = value.First().Target;
+                var bestTargets = computedTargets.Select(tInfos => tInfos.First(t => !removedTargets.Contains(t.Target))).ToList();
+                int indexMinDis = MinIndex(bestTargets, t => t.Dis);
+                Collider minTarget = bestTargets[indexMinDis].Target;
 
-                availablePDCs[index].target = minTarget.gameObject;
+                availablePDCs[indexMinDis].target = minTarget.gameObject;
                 shotTargets.Add(minTarget.gameObject);
 
-                computedTargets.RemoveAt(index);
+                computedTargets.RemoveAt(indexMinDis); // Remove selected PDC from future calculations
                 removedTargets.Add(minTarget);
             }
 
@@ -65,7 +68,8 @@ public class PDCController : MonoBehaviour
 
 
 
-        (int index, T value) MinIndex<T> (List<T> source, Func<T, float> selector)
+        // Returns the index of the minimum value in the source based on the given projection
+        int MinIndex<T> (List<T> source, Func<T, float> selector)
         {
             float min = selector(source[0]);
             int minIndex = 0;
@@ -80,12 +84,14 @@ public class PDCController : MonoBehaviour
                 }
             }
 
-            return (minIndex, source[minIndex]);
+            return minIndex;
         }
     }
 
 
 
-    public bool TargetInRange(Transform pdc, GameObject target) 
+    public float Distance(Component t1, Component t2) => (t1.transform.position - t2.transform.position).sqrMagnitude;
+
+    public bool TargetInRange(Transform pdc, GameObject target)
         => (target.transform.position - pdc.position).magnitude < effectivePDCRange;
 }

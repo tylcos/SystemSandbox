@@ -17,7 +17,6 @@ public static class InterceptSolver
 
 public static class InterceptSolverNoAccel 
 {
-
     public static float FindRealSolutionSmallestT(InterceptDrive drive, Drive targetDrive)
     {
         if (drive == null || targetDrive == null)
